@@ -44,6 +44,8 @@ class Graph(pydot.Dot):
          kwargs={}
          if not pd.isna(node[1].Extra): 
             extra = node[1].Extra
+         else: 
+            extra = ''
          node_name = node[1].Node
          match extra: 
             case "Completed": 
