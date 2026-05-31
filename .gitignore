@@ -11,4 +11,5 @@ build/
 .venv/
 .hatch/
 .vscode/
+todo/
 start_env.*

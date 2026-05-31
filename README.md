@@ -5,6 +5,7 @@ Simple graph-maker based on pydot
 ## Requirements
 
 - Python 3.10+
+- For conversion to png GraphViz and Inkscape are required
 
 ## Installation 
 ```
@@ -21,6 +22,12 @@ Usage: cli.py [OPTIONS]
 Options:
   --links TEXT   CSV file containing graph links
   --nodes TEXT   CSV file containing graph nodes
-  --output TEXT  Output file for the graph with extension .dot
+  --output TEXT  DOT file for the graph (see graphviz.org)
   --help         Show this message and exit.
 ```
+
+Different standard node types are available. 
+For example see `tests/legend`
+
+![Legend graph](tests/legend/graph.png)
+

@@ -1,0 +1,7 @@
+Node1;Node2;Extra
+Input\n(Input);Outcome1\n(Failed);
+Input\n(Input);Outcome2\n(Completed);
+Outcome1\n(Failed);Choose best outcome\n(Decision);
+Outcome2\n(Completed);Choose best outcome\n(Decision);
+Choose best outcome\n(Decision);Validation\n(Available);
+Validation\n(Available);Answer research question\n(Research Question);
