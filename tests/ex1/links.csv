@@ -1,0 +1,51 @@
+Node1;Node2;Extra
+Measurements;Bed level;
+Measurements;Sediment;
+Bed level;Absolute bed level\ndevelopment L3R3;
+Absolute bed level\ndevelopment L3R3;Yearly bed level\nchange L3R3;
+Yearly bed level\nchange L3R3;Integrated transport estimate;
+Bed level;Absolute bed level\ndevelopment L1R1;
+Absolute bed level\ndevelopment L1R1;Yearly bed level\nchange L1R1;
+Yearly bed level\nchange L1R1;Comparison yearly bed\nlevel change L1R1;
+ACal variation 1;Offline transport;
+Hiding exposure exponent variation;Offline transport;
+Integrated transport estimate;Calibration Step 1;
+Offline transport;Calibration Step 1;
+#
+Calibration Step 1;ACal variation 2;
+ACal variation 2;Online transport;
+Online transport;Calibration Step 2;
+#
+Calibration Step 2;ACal variation
+ACal variation;Comparison yearly bed\nlevel change L1R1;
+Comparison yearly bed\nlevel change L1R1;Calibration Step 3
+
+Calibration Step 3;AShld variation
+AShld variation;Comparison cross-overs L2L3-R2R3;
+Comparison cross-overs L2L3-R2R3;Calibration Step 4
+
+Calibration Step 4;Espir variation
+Espir variation;Comparison amplitude L2L3,R2R3;
+Comparison amplitude L2L3,R2R3;Calibration Complete;
+
+Calibration Complete;RQ1 How does the\nreach develop?;
+Calibration Complete;Rerun Meanderende Maas;
+Rerun Meanderende Maas;RQ2 How does a\nmeasure develop?;
+# Sensitivity
+Sediment;Width averaged composition;
+Width averaged composition;Sediment in model;
+Sediment;Width varying composition;
+Width varying composition;Sediment in model;
+Width averaged composition;10 year composition spin-up;
+10 year composition spin-up;Sediment in model;
+10 year spin-up;Bed level in model;
+Bed level;No filtering;
+Bed level;50 m filtering;
+Bed level;250 m filtering;
+No filtering;Bed level in model;
+50 m filtering;Bed level in model;
+250 m filtering;Bed level in model;
+Bed level in model;RQ3 Sensitivity of model?;
+Sediment in model;RQ3 Sensitivity of model?;
+Bed level in model;Online transport;
+Sediment in model;Online transport;

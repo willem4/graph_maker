@@ -1,0 +1,38 @@
+Node;Extra
+Measurements;Input
+Bed level;Completed
+Sediment;Completed
+Absolute bed level\ndevelopment L3R3;Failed
+Yearly bed level\nchange L3R3;Failed
+Integrated transport estimate;Failed
+Absolute bed level\ndevelopment L1R1;Completed
+Yearly bed level\nchange L1R1;Completed
+Comparison yearly bed\nlevel change L1R1;Completed
+ACal variation 1;Failed
+Offline transport;Failed
+Hiding exposure exponent variation;Failed
+Calibration Step 1;Decision
+ACal variation 2;Completed
+Online transport;Completed
+Calibration Step 2;Decision
+ACal variation;Completed
+Calibration Step 3;Decision
+AShld variation;Completed
+Comparison cross-overs L2L3-R2R3;Completed
+Calibration Step 4;Decision
+Espir variation;Completed
+Comparison amplitude L2L3,R2R3;Completed
+Calibration Complete;Completed
+RQ1 How does the\nreach develop?;Research Question
+Rerun Meanderende Maas;Available
+RQ2 How does a\nmeasure develop?;Research Question
+Width averaged composition;Failed
+Sediment in model;Completed
+Width varying composition;Completed
+10 year composition spin-up;Failed
+10 year spin-up;Failed
+Bed level in model;Completed
+No filtering;Failed
+50 m filtering;Failed
+250 m filtering;Completed
+RQ3 Sensitivity of model?;Research Question

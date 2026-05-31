@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "graph-maker"
+version = "0.1.0"
+description = "Graph maker"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "click>=8.1.7",
+  "pandas>=2.2.0",
+  "pydot>=2.0.0",
+  "pytest>=8.2.0",
+]
+
+[project.scripts]
+graph-maker = "graph_maker.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/graph_maker"]
