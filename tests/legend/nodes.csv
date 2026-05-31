@@ -1,5 +1,7 @@
 Node;Extra
 Input\n(Input);Input
+Apply Model1\n(Completed);Completed
+Apply Model2\n(Completed);Completed
 Outcome1\n(Failed);Failed
 Outcome2\n(Completed);Completed
 Choose best outcome\n(Decision);Decision

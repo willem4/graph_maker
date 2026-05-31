@@ -31,3 +31,9 @@ For example see `tests/legend`
 
 ![Legend graph](tests/legend/graph.png)
 
+## Testing 
+
+Tests are included in the tests folder and can be run using:
+```bash
+python -m pytest
+```

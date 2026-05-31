@@ -1,6 +1,8 @@
 Node1;Node2;Extra
-Input\n(Input);Outcome1\n(Failed);
-Input\n(Input);Outcome2\n(Completed);
+Input\n(Input);Apply Model1\n(Completed);
+Input\n(Input);Apply Model2\n(Completed);
+Apply Model1\n(Completed);Outcome1\n(Failed);
+Apply Model2\n(Completed);Outcome2\n(Completed);
 Outcome1\n(Failed);Choose best outcome\n(Decision);
 Outcome2\n(Completed);Choose best outcome\n(Decision);
 Choose best outcome\n(Decision);Validation\n(Available);

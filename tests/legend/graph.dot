@@ -1,11 +1,15 @@
 digraph G {
-"Input\n(Input)" -> "Outcome1\n(Failed)";
-"Input\n(Input)" -> "Outcome2\n(Completed)";
+"Input\n(Input)" -> "Apply Model1\n(Completed)";
+"Input\n(Input)" -> "Apply Model2\n(Completed)";
+"Apply Model1\n(Completed)" -> "Outcome1\n(Failed)";
+"Apply Model2\n(Completed)" -> "Outcome2\n(Completed)";
 "Outcome1\n(Failed)" -> "Choose best outcome\n(Decision)";
 "Outcome2\n(Completed)" -> "Choose best outcome\n(Decision)";
 "Choose best outcome\n(Decision)" -> "Validation\n(Available)";
 "Validation\n(Available)" -> "Answer research question\n(Research Question)";
 "Input\n(Input)" [shape=parallelogram, fillcolor=orange, style=filled];
+"Apply Model1\n(Completed)" [shape=rectangle, fillcolor=green, style=filled];
+"Apply Model2\n(Completed)" [shape=rectangle, fillcolor=green, style=filled];
 "Outcome1\n(Failed)" [shape=rectangle, fillcolor=red, style=filled];
 "Outcome2\n(Completed)" [shape=rectangle, fillcolor=green, style=filled];
 "Choose best outcome\n(Decision)" [shape=diamond, fillcolor=yellow, style=filled];
