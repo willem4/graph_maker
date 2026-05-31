@@ -11,6 +11,8 @@ class Graph(pydot.Dot):
 
    def from_csv(self, link_csv, node_csv=''): 
       import pandas as pd
+      import os
+      print(f"Current path {os.getcwd()}.")
 
       links = pd.DataFrame(columns=['Node1','Node2','Extra'])
       if Path(link_csv).is_file():
@@ -31,9 +33,29 @@ class Graph(pydot.Dot):
          self.add_link(link[1].Node1, link[1].Node2, **kwargs)
 
       nodes = pd.DataFrame(columns=['Node','Extra'])
+      nodes_have_changed = False
       if Path(node_csv).is_file():
          nodes_read = pd.read_csv(node_csv,sep=';',header=0,comment='#')
-         nodes = pd.concat([nodes, nodes_read]) # safety for wrong headers
+         nodes_temp = pd.concat([nodes, nodes_read]) # safety for wrong headers
+         for link in links.iterrows(): 
+            if link[1].Node1 not in nodes['Node'].values:
+               if link[1].Node1 in nodes_temp['Node'].values:
+                  nodes = pd.concat([nodes, nodes_temp[nodes_temp['Node'] == link[1].Node1]])
+               else:
+                  nodes = pd.concat([nodes, pd.DataFrame([[link[1].Node1, '']], columns=['Node','Extra'])], ignore_index=True )
+                  nodes_have_changed = True
+            if link[1].Node2 not in nodes['Node'].values:
+               if link[1].Node2 in nodes_temp['Node'].values:
+                  nodes = pd.concat([nodes, nodes_temp[nodes_temp['Node'] == link[1].Node2]])
+               else:
+                  nodes = pd.concat([nodes, pd.DataFrame([[link[1].Node2, '']], columns=['Node','Extra'])], ignore_index=True )
+                  nodes_have_changed = True
+         if len(set(nodes_read['Node'].values).difference(set(nodes['Node'].values))) > 0:
+            nodes_have_changed = True
+         if nodes_have_changed:
+            click.echo(f"Nodes have changed. Parsing nodes from links and nodes and saving to {node_csv.replace('.csv', '_update.csv')}. Rename to use")
+            nodes.to_csv(node_csv.replace('.csv', '_update.csv'), index=False, sep=';', header=True)
+         nodes = nodes_read
       else: 
          click.echo(f"Node CSV file not found. Parsing nodes from links and saving to {node_csv}.")
          self.save_parsed_nodes(node_csv)  
