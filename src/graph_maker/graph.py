@@ -29,7 +29,8 @@ class Graph(pydot.Dot):
             r = link[1].Extra.split(',')
             for k in r: 
                t = k.split('=')
-               kwargs[t[0]]=t[1]
+               if len(t) == 2:
+                  kwargs[t[0]]=t[1]
          self.add_link(link[1].Node1, link[1].Node2, **kwargs)
 
       nodes = pd.DataFrame(columns=['Node','Extra'])
@@ -65,11 +66,18 @@ class Graph(pydot.Dot):
       for node in nodes.iterrows():
          kwargs={}
          if not pd.isna(node[1].Extra): 
-            extra = node[1].Extra
+            extra = node[1].Extra.split(',')
+            if len(extra) > 0: 
+               for k in extra: 
+                  t = k.split('=')
+                  if len(t) == 2:
+                     kwargs[t[0]]=t[1]
+                  else:
+                     node_extra = k
          else: 
-            extra = ''
+            node_extra = ''
          node_name = node[1].Node
-         match extra: 
+         match node_extra: 
             case "Completed": 
                self.add_completed(node_name, **kwargs)
             case "Failed": 
