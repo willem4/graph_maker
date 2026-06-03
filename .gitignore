@@ -13,3 +13,8 @@ build/
 .vscode/
 todo/
 start_env.*
+tests/ex1/graph.dot
+tests/ex1/graph.png
+tests/ex1/graph.svg
+tests/icon/graph.dot
+tests/icon/graph.svg
