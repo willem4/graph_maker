@@ -26,7 +26,10 @@ Options:
   --help         Show this message and exit.
 ```
 
-Different standard node types are available. 
+At minimum a CSV file for the *links* is needed. It contains the columns Node1;Node2;Extra. The columns are separated by a semi-colon (;).
+In the Extra column different style attributes can be added. For details see (https://graphviz.org/docs/edges/) 
+
+A *nodes* CSV file is automatically generated. This file contains the columns Node;Extra separated by a semi-colon. The extra column can contain different style attributes (https://graphviz.org/docs/nodes/). In addition, different standard *node* types are available. 
 For example see `tests/legend`
 
 ![Legend graph](tests/legend/graph.png)
