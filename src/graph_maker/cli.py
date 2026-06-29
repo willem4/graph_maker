@@ -10,7 +10,8 @@ from pathlib import Path
 @click.option('--output', default='graph.dot', help='Output file for the graph')
 def main(links, nodes, output) -> None:
     """Run the graph_maker command line interface."""
-    g = Graph()
+
+    g = Graph(bgcolor='none')
     g.from_csv(links, nodes)   
     g.save_as_dot(output)
     g.save_as_png(output.replace('.dot','.png'))
