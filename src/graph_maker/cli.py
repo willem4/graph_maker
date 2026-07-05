@@ -11,7 +11,7 @@ from pathlib import Path
 def main(links, nodes, output) -> None:
     """Run the graph_maker command line interface."""
 
-    g = Graph(bgcolor='none')
+    g = Graph(bgcolor='white')
     g.from_csv(links, nodes)   
     g.save_as_dot(output)
     g.save_as_png(output.replace('.dot','.png'))
