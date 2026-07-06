@@ -1,8 +1,11 @@
+from platform import node
+
 import pydot 
 from typing import Any
 from pathlib import Path
 import click
 import os 
+
 
 class Graph(pydot.Dot): 
    # initialises an empty graph
@@ -35,6 +38,7 @@ class Graph(pydot.Dot):
 
       nodes = pd.DataFrame(columns=['Node','Extra'])
       nodes_have_changed = False
+      # TODO: deal with durations properly if --path option is provided
       if Path(node_csv).is_file():
          nodes_read = pd.read_csv(node_csv,sep=';',header=0,comment='#')
          nodes_temp = pd.concat([nodes, nodes_read]) # safety for wrong headers
@@ -43,13 +47,13 @@ class Graph(pydot.Dot):
                if link[1].Node1 in nodes_temp['Node'].values:
                   nodes = pd.concat([nodes, nodes_temp[nodes_temp['Node'] == link[1].Node1]])
                else:
-                  nodes = pd.concat([nodes, pd.DataFrame([[link[1].Node1, '']], columns=['Node','Extra'])], ignore_index=True )
+                  nodes = pd.concat([nodes, pd.DataFrame([[link[1].Node1, 'duration=1']], columns=['Node','Extra'])], ignore_index=True )
                   nodes_have_changed = True
             if link[1].Node2 not in nodes['Node'].values:
                if link[1].Node2 in nodes_temp['Node'].values:
                   nodes = pd.concat([nodes, nodes_temp[nodes_temp['Node'] == link[1].Node2]])
                else:
-                  nodes = pd.concat([nodes, pd.DataFrame([[link[1].Node2, '']], columns=['Node','Extra'])], ignore_index=True )
+                  nodes = pd.concat([nodes, pd.DataFrame([[link[1].Node2, 'duration=1']], columns=['Node','Extra'])], ignore_index=True )
                   nodes_have_changed = True
          if len(set(nodes_read['Node'].values).difference(set(nodes['Node'].values))) > 0:
             nodes_have_changed = True
@@ -65,6 +69,7 @@ class Graph(pydot.Dot):
 
       for node in nodes.iterrows():
          kwargs={}
+         node_extra = '' # default node type is normal node
          if not pd.isna(node[1].Extra): 
             extra = node[1].Extra.split(',')
             if len(extra) > 0: 
@@ -74,8 +79,6 @@ class Graph(pydot.Dot):
                      kwargs[t[0]]=t[1]
                   else:
                      node_extra = k
-         else: 
-            node_extra = ''
          node_name = node[1].Node
          match node_extra: 
             case "Completed": 
@@ -91,7 +94,27 @@ class Graph(pydot.Dot):
             case "Research Question": 
                self.add_research_question(node_name, **kwargs)     
             case _: 
-               self.add_node(node_name, **kwargs)         
+               self.add_node(node_name, **kwargs)   
+   
+   def get_node(self, node_name):
+      for node in self.get_nodes():
+         if node.get_name() == node_name:
+            return node
+      return None
+
+   def get_children(self, node_name):
+      children = []
+      for edge in self.get_edges():
+         if edge.get_source() == node_name:
+            children.append(edge.get_destination())
+      return children
+
+   def get_parents(self, node_name):
+      parents = []
+      for edge in self.get_edges():
+         if edge.get_destination() == node_name:
+            parents.append(edge.get_source())
+      return parents
 
    def save_parsed_nodes(self, filename):
       import pandas as pd
@@ -104,7 +127,8 @@ class Graph(pydot.Dot):
          if node2 not in nodes:
             nodes.append(node2)
       for df_node in nodes:
-         df = pd.concat([df, pd.DataFrame([[df_node, '']], columns=['Node','Extra'])], ignore_index=True )
+         df = pd.concat([df, pd.DataFrame([[df_node, 'duration=1']], columns=['Node','Extra'])], ignore_index=True )
+         # TODO: deal with durations properly if --path option is provided
       df.to_csv(filename, index=False, sep=';', header=True)
 
    def add_completed(self, node_name, *args: Any, **kwargs: Any):
@@ -168,3 +192,85 @@ class Graph(pydot.Dot):
       system_command = f'inkscape.com {filename.replace(".png", ".svg")} --export-type=png --export-filename={filename}'
       os.system(system_command)  
       click.echo(f"Saved graph to {filename}")
+
+   # find start and end nodes
+   def find_start_end_nodes(self):
+      nodes = [node.get_name() for node in self.get_nodes()]
+      start_nodes = nodes.copy()
+      end_nodes = nodes.copy()
+      for edge in self.get_edges():
+         start_node = edge.get_source()
+         end_node = edge.get_destination()
+         if end_node in start_nodes:
+            start_nodes.remove(end_node)
+         if start_node in end_nodes:
+            end_nodes.remove(start_node)
+      return start_nodes, end_nodes
+   
+   def compute_critical_path(self):
+        start_nodes, end_nodes = self.find_start_end_nodes()
+        duration = {}
+        early_start = {}
+        early_finish = {}
+        late_start = {}
+        late_finish = {}
+        critical_nodes = {}
+
+        # initialize duration and early_start for all nodes
+        for node in self.get_nodes():
+            node_name = node.get_name()
+            duration[node_name] = int(node.get_attributes().get('duration', 1))
+            early_start[node_name] = 0
+            critical_nodes[node_name] = False
+
+        # iterate through the graph in topological order to calculate early start times
+        frontier = start_nodes.copy()
+        while frontier:
+            current_node = frontier.pop(0)
+            current_duration = duration[current_node]
+            for child in self.get_children(current_node):
+                early_start[child] = max(early_start[child], early_start[current_node] + current_duration)
+                frontier.append(child)
+
+        max_early_finish = 0
+        # update early_finish for all nodes
+        for node in self.get_nodes():
+            node_name = node.get_name()
+            early_finish[node_name] = early_start[node_name] + duration[node_name]
+            max_early_finish = max(max_early_finish, early_finish[node_name])
+
+        for node in self.get_nodes():
+            node_name = node.get_name()
+            duration[node_name] = int(node.get_attributes().get('duration', 1))
+            late_finish[node_name] = max_early_finish
+
+        # get late finish
+        frontier = end_nodes.copy()
+        while frontier:
+            current_node = frontier.pop(0)
+            current_duration = duration[current_node]
+            for parent in self.get_parents(current_node):
+                late_finish[parent] = min(late_finish[parent], late_finish[current_node] - current_duration)
+                frontier.append(parent)
+
+        # compute late start
+        for node in self.get_nodes():
+            node_name = node.get_name()
+            duration[node_name] = int(node.get_attributes().get('duration', 1))
+            late_start[node_name] = late_finish[node_name] - duration[node_name]
+
+        # make labels for each node with duration and early start
+        for node in self.get_nodes():
+            node_name = node.get_name()
+            node.set_label(f"{node_name}\n|{duration[node_name]}|{{{early_start[node_name]}|{early_finish[node_name]}}}|{{{{{late_start[node_name]}}}|{{{late_finish[node_name]}}}}}")
+            node.set_shape('record')
+            if late_start[node_name] == early_start[node_name]:
+               if late_finish[node_name] == early_finish[node_name]:
+                  node.set_color('red')
+                  critical_nodes[node_name] = True
+
+        for edge in self.get_edges():
+            source = edge.get_source()
+            destination = edge.get_destination()
+            if critical_nodes[source] and critical_nodes[destination]:
+                edge.set_color('red')

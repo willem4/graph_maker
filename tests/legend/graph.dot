@@ -1,4 +1,5 @@
 digraph G {
+bgcolor=white;
 "Input\n(Input)" -> "Apply Model1\n(Completed)";
 "Input\n(Input)" -> "Apply Model2\n(Completed)";
 "Apply Model1\n(Completed)" -> "Outcome1\n(Failed)";
@@ -7,12 +8,12 @@ digraph G {
 "Outcome2\n(Completed)" -> "Choose best outcome\n(Decision)";
 "Choose best outcome\n(Decision)" -> "Validation\n(Available)";
 "Validation\n(Available)" -> "Answer research question\n(Research Question)";
-"Input\n(Input)" [shape=parallelogram, fillcolor=orange, style=filled];
-"Apply Model1\n(Completed)" [shape=rectangle, fillcolor=green, style=filled];
-"Apply Model2\n(Completed)" [shape=rectangle, fillcolor=green, style=filled];
-"Outcome1\n(Failed)" [shape=rectangle, fillcolor=red, style=filled];
-"Outcome2\n(Completed)" [shape=rectangle, fillcolor=green, style=filled];
-"Choose best outcome\n(Decision)" [shape=diamond, fillcolor=yellow, style=filled];
-"Validation\n(Available)" [shape=rectangle, fillcolor=lightgreen, style=filled];
-"Answer research question\n(Research Question)" [shape=rectangle, fillcolor=orange, style=filled];
+"Input\n(Input)" [shape=record, fillcolor=orange, style=filled, label="Input\n(Input)\n|1|{0|1}|{{0}|{1}}"];
+"Apply Model1\n(Completed)" [shape=record, fillcolor=green, style=filled, label="Apply Model1\n(Completed)\n|1|{1|2}|{{1}|{2}}"];
+"Apply Model2\n(Completed)" [shape=record, fillcolor=green, style=filled, label="Apply Model2\n(Completed)\n|1|{1|2}|{{1}|{2}}"];
+"Outcome1\n(Failed)" [shape=record, fillcolor=red, style=filled, label="Outcome1\n(Failed)\n|1|{2|3}|{{2}|{3}}"];
+"Outcome2\n(Completed)" [shape=record, fillcolor=green, style=filled, label="Outcome2\n(Completed)\n|1|{2|3}|{{2}|{3}}"];
+"Choose best outcome\n(Decision)" [shape=record, fillcolor=yellow, style=filled, label="Choose best outcome\n(Decision)\n|1|{3|4}|{{3}|{4}}"];
+"Validation\n(Available)" [shape=record, fillcolor=lightgreen, style=filled, label="Validation\n(Available)\n|1|{4|5}|{{4}|{5}}"];
+"Answer research question\n(Research Question)" [shape=record, fillcolor=orange, style=filled, label="Answer research question\n(Research Question)\n|1|{5|6}|{{5}|{6}}"];
 }

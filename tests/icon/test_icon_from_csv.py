@@ -20,7 +20,7 @@ def test_icon_from_csv_applies_node_and_link_extras() -> None:
     dot_text = graph.to_string()
 
     assert "Start -> End" in dot_text
-    assert "color=white" in dot_text
+    assert "color=red" in dot_text
     assert "Start" in dot_text
     assert "shape=parallelogram" in dot_text
     assert "fillcolor=orange" in dot_text

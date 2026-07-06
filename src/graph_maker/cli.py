@@ -8,11 +8,17 @@ from pathlib import Path
 @click.option('--links', default='links.csv', help='CSV file containing graph links')
 @click.option('--nodes', default='nodes.csv', help='CSV file containing graph nodes')
 @click.option('--output', default='graph.dot', help='Output file for the graph')
-def main(links, nodes, output) -> None:
+@click.option('--plan', is_flag=True, help='Calculate and display early start, early finish, late start, and late finish for each node')
+# TODO: add option for resources - i.e. max number of concurrent tasks, (opionally display resource allocation in the graph)
+def main(links, nodes, output, plan) -> None:
     """Run the graph_maker command line interface."""
 
     g = Graph(bgcolor='white')
     g.from_csv(links, nodes)   
+
+    if plan:
+        g.compute_critical_path()
+
     g.save_as_dot(output)
     g.save_as_png(output.replace('.dot','.png'))
 
