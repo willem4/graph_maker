@@ -13,6 +13,7 @@ dependencies = [
   "pandas>=2.2.0",
   "pydot>=2.0.0",
   "pytest>=8.2.0",
+  "ortools>=9.15.6755",
 ]
 
 [project.scripts]

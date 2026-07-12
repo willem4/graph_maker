@@ -9,6 +9,7 @@ from pathlib import Path
 @click.option('--nodes', default='nodes.csv', help='CSV file containing graph nodes')
 @click.option('--output', default='graph.dot', help='Output file for the graph')
 @click.option('--plan', is_flag=True, help='Calculate and display early start, early finish, late start, and late finish for each node')
+# @click.option('--capacity', default=1, help='Maximum number of concurrent tasks (resource constraint)')
 # TODO: add option for resources - i.e. max number of concurrent tasks, (opionally display resource allocation in the graph)
 def main(links, nodes, output, plan) -> None:
     """Run the graph_maker command line interface."""
