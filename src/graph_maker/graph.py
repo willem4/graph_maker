@@ -185,7 +185,7 @@ class Graph(pydot.Dot):
       if not Path(filename.replace('.png', '.dot')).is_file():
          click.echo(f"DOT file {filename.replace('.png', '.dot')} not found. Cannot save as PNG.")
          return
-      system_command = f'dot -Gsplines=curved -Gratio="fill" -Goverlap=compress  -Tsvg {filename.replace(".png", ".dot")} -o {filename.replace(".png", ".svg")}'
+      system_command = f'dot -Gsplines=true -Gratio="fill" -Goverlap=compress  -Tsvg {filename.replace(".png", ".dot")} -o {filename.replace(".png", ".svg")}'
       # del %1.svg      # dot -Gsplines=curved -Gratio="fill" -Goverlap=compress -Tsvg %1.dot -o%1.svg      import os
       os.system(system_command)
       #self.write_png(filename)
