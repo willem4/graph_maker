@@ -18,6 +18,9 @@ def main(links, nodes, output, plan) -> None:
     g.from_csv(links, nodes)   
 
     if plan:
+        if g.is_cyclic():
+            click.echo("Error: Cannot compute early/late start/finish for cyclic graphs.")
+            return
         g.compute_critical_path()
 
     g.save_as_dot(output)

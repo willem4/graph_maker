@@ -274,3 +274,28 @@ class Graph(pydot.Dot):
             destination = edge.get_destination()
             if critical_nodes[source] and critical_nodes[destination]:
                 edge.set_color('red')
+
+   def is_cyclic(self) -> bool:
+      """Detects if a directed graph has cycles using DFS."""
+      visited = set()
+      rec_stack = set()
+
+      def dfs(node_name: str) -> bool:
+         if node_name not in visited:
+            visited.add(node_name)
+            rec_stack.add(node_name)
+            for child in self.get_children(node_name):
+               if child not in visited and dfs(child):
+                  return True
+               elif child in rec_stack:
+                  return True
+
+         rec_stack.remove(node_name)
+         return False
+
+      for node in self.get_nodes():
+         node_name = node.get_name()
+         if dfs(node_name):
+               return True
+
+      return False

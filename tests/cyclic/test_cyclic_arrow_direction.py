@@ -34,3 +34,5 @@ def test_cyclic_from_csv_preserves_arrow_direction() -> None:
     assert ("C", "B") not in actual_edges
     assert ("D", "C") not in actual_edges
     assert ("A", "C") not in actual_edges
+
+    assert graph.is_cyclic() is True
