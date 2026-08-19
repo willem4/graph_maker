@@ -289,8 +289,8 @@ class Graph(pydot.Dot):
                   return True
                elif child in rec_stack:
                   return True
-
-         rec_stack.remove(node_name)
+         if node_name in rec_stack:
+            rec_stack.remove(node_name)
          return False
 
       for node in self.get_nodes():
